@@ -4,6 +4,7 @@ import { Book } from "../models/book.js"
 import { BookReadingList } from "../models/bookReadingList.js"
 import { ReadingList } from "../models/readingList.js"
 import { User } from "../models/user.js"
+import { seedAdmin } from "../seeders/adminSeeder.js"
 
 const result = dotenv.config()
 
@@ -20,11 +21,12 @@ const sequelize = new Sequelize(process.env.DB_URL, {
 export const initDatabase = async () => {
   try {
     await sequelize.authenticate()
-    console.log("Connection à la base de données établie.")
+    console.log("✅ Connexion à la base de données établie avec succès")
     await sequelize.sync({ alter: true }) // En développement uniquement
-    console.log("Modèles synchronisés avec la base de données.")
+    console.log("✅ Modèles synchronisés avec la base de données")
+    await seedAdmin()
   } catch (error) {
-    console.error("Impossible de se connecter à la base de données:", error)
+    console.error("❌ Impossible de se connecter à la base de données:", error)
     process.exit(1)
   }
 }
