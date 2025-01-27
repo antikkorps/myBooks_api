@@ -8,6 +8,7 @@ import { initDatabase } from "./configs/database.js"
 import { auth } from "./middlewares/auth.js"
 import authRoutes from "./routes/authRoutes.js"
 import bookRoutes from "./routes/bookRoutes.js"
+import googleBooks from "./routes/googleBookRoutes.js"
 import readingListRoutes from "./routes/readingListRoutes.js"
 dotenv.config()
 const app = new Hono()
@@ -34,6 +35,10 @@ api.use("/books/*", auth)
 api.use("/reading-lists/*", auth)
 api.route("/books", bookRoutes)
 api.route("/reading-lists", readingListRoutes)
+
+// Intéraction avec l'api Google Books
+api.use("/google-books", auth)
+api.route("/google-books", googleBooks)
 
 // Montage du groupe api sur /api
 app.route("/api", api)
